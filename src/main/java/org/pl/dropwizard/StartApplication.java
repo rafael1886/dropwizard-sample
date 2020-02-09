@@ -1,0 +1,44 @@
+package org.pl.dropwizard;
+
+import io.dropwizard.Application;
+import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.jdbi3.JdbiFactory;
+import io.dropwizard.setup.Environment;
+import org.flywaydb.core.Flyway;
+import org.jdbi.v3.core.Jdbi;
+
+import javax.ws.rs.client.Client;
+
+public class StartApplication extends Application<JdbiConfiguration> {
+    public static void main(String[] args) throws Exception {
+        new StartApplication().run(args);
+    }
+
+    @Override
+    public String getName() {
+        return super.getName();
+    }
+
+    private void migrateDb(String url, String username, String password) {
+        Flyway flyway = Flyway.configure()
+                .dataSource(url, username, password)
+                .load();
+        flyway.migrate();
+    }
+
+    @Override
+    public void run(JdbiConfiguration config, Environment environment) {
+        // Datasource configuration
+        final JdbiFactory factory = new JdbiFactory();
+        final Jdbi jdbi = factory.build(environment, config.getDataSourceFactory(), "postgresql");
+//        environment.jersey().register(new AddressService(jdbi));
+
+        final Client client = new JerseyClientBuilder(environment).using(config.getJerseyClientConfiguration())
+                .build(getName());
+        environment.jersey().register(client);
+        // Register resources
+        environment.jersey().register(new AddressResource(jdbi.onDemand(AddressService.class)));
+
+        migrateDb(config.getDataSourceFactory().getUrl(), config.getDataSourceFactory().getUser(), config.getDataSourceFactory().getPassword());
+    }
+}
