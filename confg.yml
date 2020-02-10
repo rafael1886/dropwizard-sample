@@ -1,27 +1,32 @@
-proxy:
-    host: '192.168.52.11'
-    port: 8080
-    scheme: 'https'
-    auth:
-        username: 'secret'
-        password: 'stuff'
-    nonProxyHosts:
-        - 'localhost'
-        - '192.168.52.*'
-        - '*.example.com'
+#server:
+#    applicationConnectors:
+#        host: '192.168.52.11'
+#        - type: https
+#          port: 8080
+#          keyStorePath: example.keystore
+#          keyStorePassword: example
+#          validateCerts: false
+#        scheme: 'https'
+#    auth:
+#        username: 'secret'
+#        password: 'stuff'
+#    nonProxyHosts:
+#        - 'localhost'
+#        - '192.168.52.*'
+#        - '*.example.com'
 
 database:
     # the name of your JDBC driver
     driverClass: org.postgresql.Driver
 
     # the username
-    user: root
+    user: postgres
 
     # the password
     password: xxxxxx
 
     # the JDBC URL
-    url: jdbc:postgresql://127.0.0.1:6551/test2
+    url: jdbc:postgresql://127.0.0.1:6551/test3
     #  url: jdbc:postgresql://localhost/dropwizard
 
     # any properties specific to your JDBC driver:

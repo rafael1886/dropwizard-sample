@@ -19,26 +19,31 @@ public class StartApplication extends Application<JdbiConfiguration> {
         return super.getName();
     }
 
-    private void migrateDb(String url, String username, String password) {
-        Flyway flyway = Flyway.configure()
-                .dataSource(url, username, password)
-                .load();
-        flyway.migrate();
-    }
-
     @Override
     public void run(JdbiConfiguration config, Environment environment) {
         // Datasource configuration
         final JdbiFactory factory = new JdbiFactory();
         final Jdbi jdbi = factory.build(environment, config.getDataSourceFactory(), "postgresql");
-//        environment.jersey().register(new AddressService(jdbi));
 
         final Client client = new JerseyClientBuilder(environment).using(config.getJerseyClientConfiguration())
                 .build(getName());
         environment.jersey().register(client);
-        // Register resources
-        environment.jersey().register(new AddressResource(jdbi.onDemand(AddressService.class)));
+        // Register resources address
+        AddressRepo addressRepo = new AddressRepo(jdbi);
+        AddressService component = new AddressService(addressRepo);
+        environment.jersey().register(component);
+        environment.jersey().register(new AddressResource(component));
+        // Register resources user
+        UserResource userResource = new UserResource(jdbi.onDemand(UserDao.class));
+        environment.jersey().register(userResource);
 
         migrateDb(config.getDataSourceFactory().getUrl(), config.getDataSourceFactory().getUser(), config.getDataSourceFactory().getPassword());
+    }
+
+    private void migrateDb(String url, String username, String password) {
+        Flyway flyway = Flyway.configure()
+                .dataSource(url, username, password)
+                .load();
+        flyway.migrate();
     }
 }

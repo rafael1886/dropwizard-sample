@@ -1,15 +1,12 @@
 package org.pl.dropwizard;
 
-import org.jdbi.v3.sqlobject.CreateSqlObject;
+import org.eclipse.jetty.http.HttpStatus;
 
+import javax.ws.rs.WebApplicationException;
 import java.util.List;
-import java.util.Optional;
 
-public abstract class AddressService {
-    private final AddressRepo addressRepo;
-
-    @CreateSqlObject
-    abstract AddressRepository addressRepository();
+public class AddressService {
+    private AddressRepo addressRepo;
 
     public AddressService(AddressRepo addressRepo) {
         this.addressRepo = addressRepo;
@@ -20,10 +17,12 @@ public abstract class AddressService {
     }
 
     public Address findById(Long id) {
-        return addressRepository().findById(id);
+        return addressRepo.findById(id).orElseThrow(
+                () -> new WebApplicationException("Address not found", HttpStatus.NOT_FOUND_404)
+        );
     }
 
     public List<Address> findAll() {
-        return addressRepository().findAll();
+        return addressRepo.findAll();
     }
 }

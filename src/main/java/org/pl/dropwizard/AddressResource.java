@@ -1,13 +1,12 @@
 package org.pl.dropwizard;
 
 import com.codahale.metrics.annotation.Timed;
+import org.checkerframework.checker.units.qual.Time;
 import org.eclipse.jetty.http.HttpStatus;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/address")
@@ -20,16 +19,25 @@ public class AddressResource {
         this.addressService = addressService;
     }
 
+    @POST
+    @Time
+    @Path("/save")
+    @Consumes({MediaType.APPLICATION_JSON})
+    public Response createAddress(Address address) {
+        addressService.create(address);
+        return Response.status(Response.Status.CREATED).build();
+    }
+
     @GET
     @Timed
-    public Representation<List<Address>> getAddress() {
-        return new Representation<List<Address>>(HttpStatus.OK_200, addressService.findAll());
+    public Representation<List<Address>> findAddress() {
+        return new Representation<>(HttpStatus.OK_200, addressService.findAll());
     }
 
     @GET
     @Timed
     @Path("{id}")
-    public Representation<Address> getAddress(@PathParam("id") final long id) {
-        return new Representation<Address>(HttpStatus.OK_200, addressService.findById(id));
+    public Representation<Address> getAddress(@PathParam("id") final Long id) {
+        return new Representation<>(HttpStatus.OK_200, addressService.findById(id));
     }
 }

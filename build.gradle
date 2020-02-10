@@ -67,6 +67,7 @@ dependencies {
     compile 'io.dropwizard:dropwizard-core:2.0.1'
     compile group: 'io.dropwizard', name: 'dropwizard-jdbi3', version: '2.0.1'
     compile 'io.dropwizard:dropwizard-client:2.0.1'
+//    compile 'io.dropwizard:dropwizard-db:2.0.1'
 }
 
 mainClassName = 'org.pl.dropwizard.StartApplication'
