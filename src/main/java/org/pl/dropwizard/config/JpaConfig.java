@@ -1,9 +1,10 @@
-package org.pl.dropwizard;
+package org.pl.dropwizard.config;
 
 import org.jdbi.v3.core.Jdbi;
-//import org.jdbi.v3.postgres.PostgresPlugin;
 
 import java.util.Map;
+
+//import org.jdbi.v3.postgres.PostgresPlugin;
 
 public class JpaConfig {
     private static JpaConfig instance;

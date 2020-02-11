@@ -1,11 +1,16 @@
-package org.pl.dropwizard;
+package org.pl.dropwizard.resource;
 
 import org.checkerframework.checker.units.qual.Time;
 import org.eclipse.jetty.http.HttpStatus;
+import org.pl.dropwizard.dao.UserDao;
+import org.pl.dropwizard.model.Address;
+import org.pl.dropwizard.model.User;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
@@ -35,6 +40,13 @@ public class UserResource {
     @Time
     @Path("/all")
     public Representation<List<User>> findAllWithAddress() {
-        return new Representation<>(HttpStatus.OK_200, userDao.findAllWithAddress());
+        List<User> list = new ArrayList<>();
+        Map<User, Address> map = userDao.findAllWithAddress();
+        for (Map.Entry<User, Address> userAddressEntry : map.entrySet()) {
+            User user = userAddressEntry.getKey();
+            user.setAddress(userAddressEntry.getValue());
+            list.add(user);
+        }
+        return new Representation<>(HttpStatus.OK_200, list);
     }
 }

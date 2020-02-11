@@ -1,4 +1,4 @@
-package org.pl.dropwizard;
+package org.pl.dropwizard.model;
 
 import org.jdbi.v3.core.mapper.Nested;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;

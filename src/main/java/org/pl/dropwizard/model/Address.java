@@ -1,4 +1,4 @@
-package org.pl.dropwizard;
+package org.pl.dropwizard.model;
 
 public class Address {
     private Long id;

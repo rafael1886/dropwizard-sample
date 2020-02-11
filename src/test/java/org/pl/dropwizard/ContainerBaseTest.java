@@ -1,6 +1,7 @@
 package org.pl.dropwizard;
 
 import org.flywaydb.core.Flyway;
+import org.pl.dropwizard.config.JpaConfig;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.Map;
@@ -20,7 +21,7 @@ public class ContainerBaseTest {
 
     private static void mysqlContainerCongigurationAndStart() {
         postgreSQLContainer = new PostgreSQLContainer("postgres:11.6");
-        postgreSQLContainer.withInitScript("db/migration/V1.0.0__script.sql");
+        postgreSQLContainer.withInitScript("db/migration/V0.0.1__script.sql");
         postgreSQLContainer.withEnv("TZ", "Europe/Warsaw");
         postgreSQLContainer.addParameter("useUnicode", "yes");
         postgreSQLContainer.addParameter("characterEncoding", "UTF-8");

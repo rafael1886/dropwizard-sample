@@ -1,9 +1,10 @@
-package org.pl.dropwizard;
+package org.pl.dropwizard.dao;
 
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.pl.dropwizard.model.Address;
 
 import java.util.List;
 import java.util.Optional;

@@ -1,7 +1,8 @@
-package org.pl.dropwizard;
+package org.pl.dropwizard.dao;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.FieldMapper;
+import org.pl.dropwizard.model.Address;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +14,7 @@ public class AddressRepo {
         this.jdbi = jdbi;
     }
 
-    void create() {
+    public void create() {
         jdbi.useHandle(handle -> handle.createUpdate("insert into address (street, city, state, zip) values (:street, :city, :state, :zip)")
                 .bind("street", "Agaty")
                 .bind("city", "Warsav")
@@ -22,7 +23,7 @@ public class AddressRepo {
                 .execute());
     }
 
-    Optional<Address> findById(Long id) {
+    public Optional<Address> findById(Long id) {
         return jdbi.withHandle(handle -> {
             handle.registerRowMapper(FieldMapper.factory(Address.class));
             return handle.createQuery("select * from address where id = :id")
@@ -32,7 +33,7 @@ public class AddressRepo {
         });
     }
 
-    List<Address> findAll() {
+    public List<Address> findAll() {
         return jdbi.withHandle(handle -> {
             handle.registerRowMapper(FieldMapper.factory(Address.class));
             return handle.createQuery("select * from address")

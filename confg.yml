@@ -26,7 +26,7 @@ database:
     password: xxxxxx
 
     # the JDBC URL
-    url: jdbc:postgresql://127.0.0.1:6551/test3
+    url: jdbc:postgresql://127.0.0.1:6551/dropwizard_sample
     #  url: jdbc:postgresql://localhost/dropwizard
 
     # any properties specific to your JDBC driver:

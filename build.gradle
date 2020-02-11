@@ -1,19 +1,13 @@
 buildscript {
     ext {
-        springBootVersion = '2.2.4.RELEASE'
-        h2Version = '1.4.196'
-        apacheCommonsVersion = '3.4'
-        lombokVersion = '1.18.10'
-        sposckVersion = '1.2-groovy-2.5'
         mockitoVersion = '3.0.0'
         junitVersion = '5.5.2'
         assertjVersion = '3.13.2'
-        guavaVersion = '28.1-jre'
         testContainersVersion = '1.12.3'
         slf4jVersion = '1.7.28'
-        mysqlConnectionVersion = '8.0.18'
         flywaydbVersion = '6.1.4'
-        swaggerVersion = '2.9.2'
+        postgresVersion = '42.2.9'
+        dropwizardVersion = '2.0.1'
     }
 
     repositories {
@@ -53,21 +47,15 @@ dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: junitVersion
     testImplementation group: 'org.testcontainers', name: 'postgresql', version: testContainersVersion
 
-//    implementation group: 'org.slf4j', name: 'slf4j-simple', version: slf4jVersion
     implementation group: 'org.flywaydb', name: 'flyway-core', version: flywaydbVersion
 
+    implementation group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    implementation group: 'io.dropwizard', name: 'dropwizard-client', version: dropwizardVersion
+    implementation group: 'io.dropwizard', name: 'dropwizard-jdbi3', version: dropwizardVersion
 
+    implementation group: 'org.postgresql', name: 'postgresql', version: postgresVersion
 
-//    compile 'org.hsqldb:hsqldb:2.5.0'
-//    compile 'org.jdbi:jdbi3-core:3.12.0'
-//    compile 'org.jdbi:jdbi3-sqlobject:3.12.0'
-//    compile 'org.jdbi:jdbi3-postgres:3.12.0'
-
-    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.9'
-    compile 'io.dropwizard:dropwizard-core:2.0.1'
-    compile group: 'io.dropwizard', name: 'dropwizard-jdbi3', version: '2.0.1'
-    compile 'io.dropwizard:dropwizard-client:2.0.1'
-//    compile 'io.dropwizard:dropwizard-db:2.0.1'
+    compile 'org.apache.logging.log4j:log4j-core:2.13.0'
 }
 
 mainClassName = 'org.pl.dropwizard.StartApplication'

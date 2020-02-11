@@ -1,12 +1,12 @@
 package org.pl.dropwizard;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+import org.pl.dropwizard.model.Address;
+import org.pl.dropwizard.resource.AddressService;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 

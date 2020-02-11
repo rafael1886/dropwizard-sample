@@ -6,6 +6,13 @@ import io.dropwizard.jdbi3.JdbiFactory;
 import io.dropwizard.setup.Environment;
 import org.flywaydb.core.Flyway;
 import org.jdbi.v3.core.Jdbi;
+import org.pl.dropwizard.config.JdbiConfiguration;
+import org.pl.dropwizard.dao.AddressRepo;
+import org.pl.dropwizard.dao.BookDao;
+import org.pl.dropwizard.dao.UserDao;
+import org.pl.dropwizard.resource.AddressService;
+import org.pl.dropwizard.resource.BookService;
+import org.pl.dropwizard.resource.UserResource;
 
 import javax.ws.rs.client.Client;
 
@@ -32,10 +39,13 @@ public class StartApplication extends Application<JdbiConfiguration> {
         AddressRepo addressRepo = new AddressRepo(jdbi);
         AddressService component = new AddressService(addressRepo);
         environment.jersey().register(component);
-        environment.jersey().register(new AddressResource(component));
+//        environment.jersey().register(new AddressResource(component));
         // Register resources user
         UserResource userResource = new UserResource(jdbi.onDemand(UserDao.class));
         environment.jersey().register(userResource);
+        // Register resources book
+        BookService bookService = new BookService(new BookDao(jdbi));
+        environment.jersey().register(bookService);
 
         migrateDb(config.getDataSourceFactory().getUrl(), config.getDataSourceFactory().getUser(), config.getDataSourceFactory().getPassword());
     }
