@@ -9,9 +9,11 @@ import org.jdbi.v3.core.Jdbi;
 import org.pl.dropwizard.config.JdbiConfiguration;
 import org.pl.dropwizard.dao.AddressRepo;
 import org.pl.dropwizard.dao.BookDao;
+import org.pl.dropwizard.dao.CarDao;
 import org.pl.dropwizard.dao.UserDao;
 import org.pl.dropwizard.resource.AddressService;
 import org.pl.dropwizard.resource.BookService;
+import org.pl.dropwizard.resource.CarService;
 import org.pl.dropwizard.resource.UserResource;
 
 import javax.ws.rs.client.Client;
@@ -31,7 +33,6 @@ public class StartApplication extends Application<JdbiConfiguration> {
         // Datasource configuration
         final JdbiFactory factory = new JdbiFactory();
         final Jdbi jdbi = factory.build(environment, config.getDataSourceFactory(), "postgresql");
-
         final Client client = new JerseyClientBuilder(environment).using(config.getJerseyClientConfiguration())
                 .build(getName());
         environment.jersey().register(client);
@@ -46,6 +47,9 @@ public class StartApplication extends Application<JdbiConfiguration> {
         // Register resources book
         BookService bookService = new BookService(new BookDao(jdbi));
         environment.jersey().register(bookService);
+        // Register resources car
+        CarService carService = new CarService(new CarDao(jdbi));
+        environment.jersey().register(carService);
 
         migrateDb(config.getDataSourceFactory().getUrl(), config.getDataSourceFactory().getUser(), config.getDataSourceFactory().getPassword());
     }

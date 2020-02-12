@@ -1,15 +1,18 @@
 package org.pl.dropwizard.resource;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import org.pl.dropwizard.model.CarDto;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/book")
+@Path("/car")
 @Produces(MediaType.APPLICATION_JSON)
-public interface BookResource {
+public interface CarResource {
+
+    @POST
+    @Consumes({MediaType.APPLICATION_JSON})
+    Response create(CarDto carDto);
 
     @GET
     @Path("{id}")

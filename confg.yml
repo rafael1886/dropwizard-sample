@@ -1,3 +1,9 @@
+server:
+    adminMinThreads: 1
+    adminMaxThreads: 64
+    applicationConnectors:
+        - type: http
+          port: 8082
 #server:
 #    applicationConnectors:
 #        host: '192.168.52.11'
@@ -26,7 +32,7 @@ database:
     password: xxxxxx
 
     # the JDBC URL
-    url: jdbc:postgresql://127.0.0.1:6551/dropwizard_sample
+    url: jdbc:postgresql://127.0.0.1:6553/dropwizard_sample
     #  url: jdbc:postgresql://localhost/dropwizard
 
     # any properties specific to your JDBC driver:
