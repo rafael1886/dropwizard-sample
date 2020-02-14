@@ -1,51 +1,28 @@
 package org.pl.dropwizard.dao;
 
-import org.jdbi.v3.core.Jdbi;
-import org.jdbi.v3.core.mapper.reflect.FieldMapper;
+import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.pl.dropwizard.model.Model;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
 
-public class ModelDao {
-    private static final Logger log = LoggerFactory.getLogger(ModelDao.class);
-    private final Jdbi jdbi;
+public interface ModelDao {
+    @SqlUpdate("insert into models(name, brand_id) values (name, brand_id) ")
+    @GetGeneratedKeys()
+    @RegisterBeanMapper(Model.class)
+    Model create(String name, Long brand_id);
 
-    public ModelDao(Jdbi jdbi) {
-        this.jdbi = jdbi;
-    }
+    @SqlQuery("select * from models where id = :id")
+    @RegisterBeanMapper(Model.class)
+    Optional<Model> findById(Long id);
 
-    Model create(Model model) {
-        return jdbi.withHandle(handle ->
-                handle.createUpdate("insert into models(name, brand_id) " +
-                        "values (:name, :brand_id) ")
-                        .bind("name", model.getName())
-                        .bind("brand_id", model.getBrand())
-                        .executeAndReturnGeneratedKeys()
-                        .mapTo(Model.class)
-                        .one());
-    }
+    @SqlQuery("select * from models")
+    @RegisterBeanMapper(Model.class)
+    List<Model> findAll();
 
-    public Optional<Model> findById(Long id) {
-        log.info("Find model by id " + id);
-        return jdbi.withHandle(handle -> {
-            handle.registerRowMapper(FieldMapper.factory(Model.class));
-            return handle.createQuery("select * from models where id = :id")
-                    .bind("id", id)
-                    .mapTo(Model.class)
-                    .findOne();
-        });
-    }
-
-    public List<Model> findAll() {
-        log.info("Find all models");
-        return jdbi.withHandle(handle -> {
-            handle.registerRowMapper(FieldMapper.factory(Model.class));
-            return handle.createQuery("select * from models")
-                    .mapTo(Model.class)
-                    .list();
-        });
-    }
+    @SqlUpdate("delete from models where id = :id")
+    void deleteById(Long id);
 }

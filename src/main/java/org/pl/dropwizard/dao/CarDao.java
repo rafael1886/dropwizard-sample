@@ -2,6 +2,7 @@ package org.pl.dropwizard.dao;
 
 import org.jdbi.v3.core.Jdbi;
 import org.jdbi.v3.core.mapper.reflect.FieldMapper;
+import org.jdbi.v3.core.result.ResultBearing;
 import org.pl.dropwizard.model.Car;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,21 +18,22 @@ public class CarDao {
         this.jdbi = jdbi;
     }
 
-    public Car create(Car model) {
-        jdbi.withHandle(handle ->
-                handle.createUpdate(
-                        "insert into cars(model_id, year_production, type_of_fuel, engine_capacity, color) " +
-                                " values (:model_id, :year_production, :type_of_fuel, :engine_capacity, :color) ")
-                        .bind("model_id", model.getModel().getId())
-                        .bind("year_production", model.getYearProduction())
-                        .bind("type_of_fuel", model.getTypeOfFuel())
-                        .bind("engine_capacity", model.getEngineCapacity())
-                        .bind("color", model.getColor())
-                        .execute());
-//                        .executeAndReturnGeneratedKeys()
-//                        .mapTo(Car.class)
-//                        .one());
-        return null;
+    public Optional<Car> create(Car model) {
+        return jdbi.withHandle(handle -> {
+            handle.registerRowMapper(FieldMapper.factory(Car.class));
+            ResultBearing resultBearing = handle.createUpdate(
+                    "insert into cars(model_id, year_production, type_of_fuel, engine_capacity, color) " +
+                            " values (:model_id, :year_production, :type_of_fuel, :engine_capacity, :color) ")
+                    .bind("model_id", model.getModel().getId())
+                    .bind("year_production", model.getYearProduction())
+                    .bind("type_of_fuel", model.getTypeOfFuel())
+                    .bind("engine_capacity", model.getEngineCapacity())
+                    .bind("color", model.getColor())
+                    .executeAndReturnGeneratedKeys();
+                 return resultBearing. mapTo(Car.class)
+                 .findFirst();
+
+        });
     }
 
     public Optional<Car> findById(Long id) {
@@ -53,5 +55,20 @@ public class CarDao {
                     .mapTo(Car.class)
                     .list();
         });
+    }
+
+    public void delete(Car car) {
+        deleteById(car.getId());
+    }
+
+    public boolean deleteById(Long id) {
+        int countUpdate = jdbi.withHandle(handle ->  handle.createUpdate("delete from cars where id = :id")
+                    .bind("id", id)
+                    .execute());
+        return countUpdate == 0 ? false : true;
+    }
+
+    public Car update(Car car) {
+        return null;
     }
 }

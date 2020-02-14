@@ -7,14 +7,8 @@ import io.dropwizard.setup.Environment;
 import org.flywaydb.core.Flyway;
 import org.jdbi.v3.core.Jdbi;
 import org.pl.dropwizard.config.JdbiConfiguration;
-import org.pl.dropwizard.dao.AddressRepo;
-import org.pl.dropwizard.dao.BookDao;
-import org.pl.dropwizard.dao.CarDao;
-import org.pl.dropwizard.dao.UserDao;
-import org.pl.dropwizard.resource.AddressService;
-import org.pl.dropwizard.resource.BookService;
-import org.pl.dropwizard.resource.CarService;
-import org.pl.dropwizard.resource.UserResource;
+import org.pl.dropwizard.dao.*;
+import org.pl.dropwizard.resource.*;
 
 import javax.ws.rs.client.Client;
 
@@ -44,6 +38,9 @@ public class StartApplication extends Application<JdbiConfiguration> {
         // Register resources user
         UserResource userResource = new UserResource(jdbi.onDemand(UserDao.class));
         environment.jersey().register(userResource);
+        // Register resources model
+        ModelService modelService = new ModelService(jdbi.onDemand(ModelDao.class));
+        environment.jersey().register(modelService);
         // Register resources book
         BookService bookService = new BookService(new BookDao(jdbi));
         environment.jersey().register(bookService);

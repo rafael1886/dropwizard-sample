@@ -1,4 +1,4 @@
-package org.pl.dropwizard.model;
+package org.pl.dropwizard.model.dto;
 
 import org.pl.dropwizard.model.enums.TypeOfFuel;
 
