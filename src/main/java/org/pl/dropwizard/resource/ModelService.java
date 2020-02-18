@@ -3,6 +3,7 @@ package org.pl.dropwizard.resource;
 import org.pl.dropwizard.dao.ModelDao;
 import org.pl.dropwizard.model.Model;
 import org.pl.dropwizard.model.dto.ModelDto;
+import org.pl.dropwizard.model.mapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class ModelService implements ModelResource{
     public Response create(ModelDto modelDto) {
         log.info("create " + modelDto.toString());
         return status(CREATED)
-                .entity(modelDao.create(modelDto.getName(), modelDto.getBrand()))
+                .entity(ModelMapper.toDto(modelDao.create(modelDto.getName(), modelDto.getBrand())))
                 .build();
     }
 
@@ -40,6 +41,14 @@ public class ModelService implements ModelResource{
     public Response findById(Long id) {
         log.info("find by id " + id);
         return ok(modelDao.findById(id).orElseThrow(
+                () -> new WebApplicationException("Model not found", NOT_FOUND)
+        )).build();
+    }
+
+    @Override
+    public Response findById2(Long id) {
+        log.info("find by id " + id);
+        return ok(modelDao.findById2(id).orElseThrow(
                 () -> new WebApplicationException("Model not found", NOT_FOUND)
         )).build();
     }

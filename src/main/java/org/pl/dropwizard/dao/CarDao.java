@@ -1,6 +1,7 @@
 package org.pl.dropwizard.dao;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.ConstructorMapper;
 import org.jdbi.v3.core.mapper.reflect.FieldMapper;
 import org.jdbi.v3.core.result.ResultBearing;
 import org.pl.dropwizard.model.Car;
@@ -36,39 +37,55 @@ public class CarDao {
         });
     }
 
+    public Car update(Car car) {
+        return null;
+    }
+
     public Optional<Car> findById(Long id) {
-        log.info("Find model by id " + id);
-        return jdbi.withHandle(handle -> {
+        Optional<Car> id1 = jdbi.withHandle(handle -> {
             handle.registerRowMapper(FieldMapper.factory(Car.class));
-            return handle.createQuery("select * from cars where id = :id")
-                    .bind("id", id)
-                    .mapTo(Car.class)
-                    .findOne();
-        });
+                    return handle.createQuery("select * from cars c left outer join models m on m.id_model = c.model_id where c.id = :id") //c left outer join models m on m.id = c.model_id
+                            .bind("id", id)
+                            .mapTo(Car.class)
+                            .findOne();
+                });
+        log.info(id1.get().toString());
+        return id1;
     }
 
     public List<Car> findAll() {
         log.info("Find all cars");
         return jdbi.withHandle(handle -> {
-            handle.registerRowMapper(FieldMapper.factory(Car.class));
-            return handle.createQuery("select * from cars")
+//            handle.registerRowMapper(ConstructorMapper.factory(Car.class));
+            handle.registerRowMapper(ConstructorMapper.factory(Car.class));
+            return handle.createQuery("select id, year_production, type_of_fuel, engine_capacity, color, id_model, name_model from cars")// c left outer join models m on m.id = c.model_id")
                     .mapTo(Car.class)
                     .list();
         });
     }
+//
+//    public List<Car> findAll() {
+//        log.info("Find all cars");
+//        return jdbi.withHandle(handle -> {
+//            handle.registerRowMapper(BeanMapper.factory(Car.class, "c"));
+//            handle.registerRowMapper(BeanMapper.factory(Model.class, "m"));
+//            handle.registerRowMapper(JoinRowMapper.forTypes(Car.class, Model.class));
+//            return handle.createQuery("select c.id, c.year_production, c.type_of_fuel, c.engine_capacity, c.color, m.id, m.name, m.brand_id from cars c left outer join models m on m.id = c.model_id")
+//                    .mapTo(JoinRow.class)
+//                    .map(a -> a.get(Car.class))
+//                    .list();
+//        });
+//    }
 
     public void delete(Car car) {
         deleteById(car.getId());
     }
 
     public boolean deleteById(Long id) {
-        int countUpdate = jdbi.withHandle(handle ->  handle.createUpdate("delete from cars where id = :id")
-                    .bind("id", id)
-                    .execute());
+        int countUpdate = jdbi.withHandle(handle -> handle.createUpdate("delete from cars where id = :id")
+                .bind("id", id)
+                .execute());
         return countUpdate == 0 ? false : true;
     }
 
-    public Car update(Car car) {
-        return null;
-    }
 }

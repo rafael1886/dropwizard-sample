@@ -1,7 +1,20 @@
 package org.pl.dropwizard.model;
 
-public class Brand extends BaseEntity {
-    String name;
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
+public class Brand {// extends BaseEntity {
+    @ColumnName("id_brand")
+    private Long id;
+    @ColumnName("name_brand")
+    private String name;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -9,5 +22,27 @@ public class Brand extends BaseEntity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Brand brand = new Brand();
+
+        public Builder id(Long id) {
+            brand.setId(id);
+            return this;
+        }
+
+        public Builder name(String name) {
+            brand.name = name;
+            return this;
+        }
+
+        public Brand build() {
+            return brand;
+        }
     }
 }

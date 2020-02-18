@@ -1,11 +1,11 @@
 package org.pl.dropwizard.model;
 
-import org.jdbi.v3.core.mapper.Nested;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 import org.pl.dropwizard.model.enums.TypeOfFuel;
 
-public class Car extends BaseEntity {
-    @Nested
+public class Car {//extends BaseEntity {  id, year_production, type_of_fuel, engine_capacity, color, m_id, m_name, m_brand_id
+    private Long id;
+
     private Model model;
     @ColumnName("year_production")
     private Integer yearProduction;
@@ -13,14 +13,30 @@ public class Car extends BaseEntity {
     private TypeOfFuel typeOfFuel;
     @ColumnName("engine_capacity")
     private Integer engineCapacity; //cm3
-    private String Color;
+    private String color;
+
+    public Car() {
+    }
+
+    private Car(Long id, Model model, Integer yearProduction, TypeOfFuel typeOfFuel, Integer engineCapacity, String color) {
+        this.id = id;
+        this.model = model;
+        this.yearProduction = yearProduction;
+        this.typeOfFuel = typeOfFuel;
+        this.engineCapacity = engineCapacity;
+        this.color = color;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Model getModel() {
         return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
     }
 
     public Integer getYearProduction() {
@@ -48,11 +64,27 @@ public class Car extends BaseEntity {
     }
 
     public String getColor() {
-        return Color;
+        return color;
     }
 
     public void setColor(String color) {
-        Color = color;
+        this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "model=" + model +
+                ", yearProduction=" + yearProduction +
+                ", typeOfFuel=" + typeOfFuel +
+                ", engineCapacity=" + engineCapacity +
+                ", color='" + color + '\'' +
+                ": modelid=" + (model == null ? "null" : model.getId()) +
+                '}';
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 
     public static Builder builder() {
@@ -88,7 +120,7 @@ public class Car extends BaseEntity {
         }
 
         public Builder color(String Color) {
-            car.Color = Color;
+            car.color = Color;
             return this;
         }
 

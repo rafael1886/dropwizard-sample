@@ -8,7 +8,7 @@ public class User {
     @ColumnName("name")
     private String name;
     private String surname;
-    @Nested
+    @Nested("address_id")
     private Address address;
 
     public Long getId() {

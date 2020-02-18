@@ -14,48 +14,66 @@ public class CarDto {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getModel() {
         return model;
-    }
-
-    public void setModel(Long model) {
-        this.model = model;
     }
 
     public Integer getYearProduction() {
         return yearProduction;
     }
 
-    public void setYearProduction(Integer yearProduction) {
-        this.yearProduction = yearProduction;
-    }
-
     public TypeOfFuel getTypeOfFuel() {
         return typeOfFuel;
-    }
-
-    public void setTypeOfFuel(TypeOfFuel typeOfFuel) {
-        this.typeOfFuel = typeOfFuel;
     }
 
     public Integer getEngineCapacity() {
         return engineCapacity;
     }
 
-    public void setEngineCapacity(Integer engineCapacity) {
-        this.engineCapacity = engineCapacity;
-    }
-
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private CarDto carDto = new CarDto();
+
+        public Builder id(Long id) {
+            carDto.id = id;
+            return this;
+        }
+
+        public Builder modelId(Long model) {
+            carDto.model = model;
+            return this;
+        }
+
+        public Builder yearProduction(Integer yearProduction) {
+            carDto.yearProduction = yearProduction;
+            return this;
+        }
+
+        public Builder typeOfFuel(TypeOfFuel typeOfFuel) {
+            carDto.typeOfFuel = typeOfFuel;
+            return this;
+        }
+
+        public Builder engineCapacity(Integer engineCapacity) {
+            carDto.engineCapacity = engineCapacity;
+            return this;
+        }
+
+        public Builder color(String Color) {
+            carDto.color = Color;
+            return this;
+        }
+
+        public CarDto build() {
+            return carDto;
+        }
     }
 
     @Override

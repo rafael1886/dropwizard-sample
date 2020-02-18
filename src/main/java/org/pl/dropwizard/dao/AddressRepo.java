@@ -26,7 +26,7 @@ public class AddressRepo {
     public Optional<Address> findById(Long id) {
         return jdbi.withHandle(handle -> {
             handle.registerRowMapper(FieldMapper.factory(Address.class));
-            return handle.createQuery("select * from address where id = :id")
+            return handle.createQuery("select * from address a where a.id = :id")
                     .bind("id", id)
                     .mapTo(Address.class)
                     .findFirst();

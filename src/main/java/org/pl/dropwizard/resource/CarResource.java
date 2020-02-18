@@ -11,12 +11,10 @@ import javax.ws.rs.core.Response;
 public interface CarResource {
 
     @POST
-//    @Consumes({MediaType.APPLICATION_JSON})
     Response create(final CarDto carDto);
 
     @PUT
     @Path("{id}")
-//    @Consumes({MediaType.APPLICATION_JSON})
     Response update(final CarDto carDto);
 
     @GET

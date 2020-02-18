@@ -34,7 +34,7 @@ sourceSets.main.output.resourcesDir = sourceSets.main.java.outputDir
 sourceSets.test.output.resourcesDir = sourceSets.test.java.outputDir
 
 wrapper {
-    gradleVersion = '6.1'
+    gradleVersion = '6.2'
 }
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"

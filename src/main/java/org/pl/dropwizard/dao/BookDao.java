@@ -1,6 +1,7 @@
 package org.pl.dropwizard.dao;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.mapper.reflect.BeanMapper;
 import org.jdbi.v3.core.mapper.reflect.FieldMapper;
 import org.pl.dropwizard.model.Book;
 import org.slf4j.Logger;
@@ -31,8 +32,9 @@ public class BookDao {
     public List<Book> findAll() {
         log.info("Find all books");
         return jdbi.withHandle(handle -> {
-            handle.registerRowMapper(FieldMapper.factory(Book.class));
-            return handle.createQuery("select * from books")
+            handle.registerRowMapper(BeanMapper.factory(Book.class, "b"));
+//            handle.registerRowMapper(BeanMapper.factory(User.class, "u"));
+            return handle.createQuery("select * from books ")//b left join users u on u.id = b.user_id
                     .mapTo(Book.class)
                     .list();
         });

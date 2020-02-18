@@ -23,7 +23,7 @@ public class StartApplication extends Application<JdbiConfiguration> {
     }
 
     @Override
-    public void run(JdbiConfiguration config, Environment environment) {
+    public void run(final JdbiConfiguration config, final Environment environment) {
         // Datasource configuration
         final JdbiFactory factory = new JdbiFactory();
         final Jdbi jdbi = factory.build(environment, config.getDataSourceFactory(), "postgresql");
@@ -34,7 +34,6 @@ public class StartApplication extends Application<JdbiConfiguration> {
         AddressRepo addressRepo = new AddressRepo(jdbi);
         AddressService component = new AddressService(addressRepo);
         environment.jersey().register(component);
-//        environment.jersey().register(new AddressResource(component));
         // Register resources user
         UserResource userResource = new UserResource(jdbi.onDemand(UserDao.class));
         environment.jersey().register(userResource);
@@ -45,14 +44,14 @@ public class StartApplication extends Application<JdbiConfiguration> {
         BookService bookService = new BookService(new BookDao(jdbi));
         environment.jersey().register(bookService);
         // Register resources car
-        CarService carService = new CarService(new CarDao(jdbi));
+        CarService carService = new CarService(new CarDao(jdbi), jdbi.onDemand(ModelDao.class));
         environment.jersey().register(carService);
 
         migrateDb(config.getDataSourceFactory().getUrl(), config.getDataSourceFactory().getUser(), config.getDataSourceFactory().getPassword());
     }
 
-    private void migrateDb(String url, String username, String password) {
-        Flyway flyway = Flyway.configure()
+    private void migrateDb(final String url,final String username,final String password) {
+        final Flyway flyway = Flyway.configure()
                 .dataSource(url, username, password)
                 .load();
         flyway.migrate();

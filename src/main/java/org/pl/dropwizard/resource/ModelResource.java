@@ -11,17 +11,19 @@ import javax.ws.rs.core.Response;
 public interface ModelResource {
 
     @POST
-//    @Consumes({MediaType.APPLICATION_JSON})
     Response create(final ModelDto modelDto);
 
     @PUT
     @Path("{id}")
-//    @Consumes({MediaType.APPLICATION_JSON})
     Response update(final ModelDto modelDto);
 
     @GET
     @Path("{id}")
     Response findById(@PathParam("id") final Long id);
+
+    @GET
+    @Path("/w/{id}")
+    Response findById2(@PathParam("id") final Long id);
 
     @GET
     Response findAll();
