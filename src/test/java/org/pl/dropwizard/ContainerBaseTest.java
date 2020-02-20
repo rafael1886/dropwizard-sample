@@ -2,6 +2,7 @@ package org.pl.dropwizard;
 
 import org.flywaydb.core.Flyway;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 
@@ -13,6 +14,7 @@ public class ContainerBaseTest {
         mysqlContainerCongigurationAndStart();
         migrateDb();
         jdbi = Jdbi.create(postgreSQLContainer.getJdbcUrl(), postgreSQLContainer.getUsername(), postgreSQLContainer.getPassword());
+        jdbi.installPlugin(new SqlObjectPlugin());
     }
 
     private static void mysqlContainerCongigurationAndStart() {
