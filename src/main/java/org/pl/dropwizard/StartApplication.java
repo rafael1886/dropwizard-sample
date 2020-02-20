@@ -37,20 +37,27 @@ public class StartApplication extends Application<JdbiConfiguration> {
         // Register resources user
         UserResource userResource = new UserResource(jdbi.onDemand(UserDao.class));
         environment.jersey().register(userResource);
-        // Register resources model
-        ModelService modelService = new ModelService(jdbi.onDemand(ModelDao.class));
-        environment.jersey().register(modelService);
         // Register resources book
         BookService bookService = new BookService(new BookDao(jdbi));
         environment.jersey().register(bookService);
+
+
+        // Register resources brand
+        BrandDao brandDao = jdbi.onDemand(BrandDao.class);
+        BrandService brandService = new BrandService(brandDao);
+        environment.jersey().register(brandService);
+        // Register resources model
+        ModelDao modelDao = new ModelDao(jdbi);
+        ModelService modelService = new ModelService(modelDao, brandDao);
+        environment.jersey().register(modelService);
         // Register resources car
-        CarService carService = new CarService(new CarDao(jdbi), jdbi.onDemand(ModelDao.class));
+        CarService carService = new CarService(jdbi.onDemand(CarDao.class), modelDao);
         environment.jersey().register(carService);
 
         migrateDb(config.getDataSourceFactory().getUrl(), config.getDataSourceFactory().getUser(), config.getDataSourceFactory().getPassword());
     }
 
-    private void migrateDb(final String url,final String username,final String password) {
+    private void migrateDb(final String url, final String username, final String password) {
         final Flyway flyway = Flyway.configure()
                 .dataSource(url, username, password)
                 .load();

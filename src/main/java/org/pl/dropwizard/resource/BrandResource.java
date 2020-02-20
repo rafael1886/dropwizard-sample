@@ -1,21 +1,21 @@
 package org.pl.dropwizard.resource;
 
-import org.pl.dropwizard.model.dto.CarDto;
+import org.pl.dropwizard.model.dto.BrandDto;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/car")
+@Path("/brand")
 @Produces(MediaType.APPLICATION_JSON)
-public interface CarResource {
+public interface BrandResource {
 
     @POST
-    Response create(final CarDto carDto);
+    Response create(final BrandDto brandDto);
 
     @PUT
     @Path("{id}")
-    Response update(final CarDto carDto, @PathParam("id") final Long id);
+    Response update(final BrandDto brandDto, @PathParam("id") final Long id);
 
     @GET
     @Path("{id}")

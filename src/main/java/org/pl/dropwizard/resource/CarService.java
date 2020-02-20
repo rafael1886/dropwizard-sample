@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static javax.ws.rs.core.Response.Status.CREATED;
@@ -30,22 +30,25 @@ public class CarService implements CarResource {
     @Override
     public Response create(final CarDto carDto) {
         log.info("create " + carDto.toString());
+        final Car car = findModel(carDto);
         return status(CREATED)
-                .entity(carDao.create(CarMapper.toEntity(carDto)))
+                .entity(CarMapper.toDto(carDao.create(car)))
                 .build();
     }
 
     @Override
-    public Response update(final CarDto carDto) {
+    public Response update(final CarDto carDto, final Long id) {
         log.info("update " + carDto.toString());
-        final Car car = setModelInCar(carDto);
-        return ok(CarMapper.toDto(carDao.create(car).get())).build();
+        final Car car = findModel(carDto);
+        final boolean success = carDao.update(car, id);
+        return success ? ok().build() : Response.status(NOT_FOUND).build();
     }
 
     @Override
     public Response delete(final Long id) {
-        carDao.deleteById(id);
-        return noContent().build();
+        log.info("delete " + id);
+        final boolean success = carDao.deleteById(id);
+        return success ? noContent().build() : Response.status(NOT_FOUND).build();
     }
 
     @Override
@@ -59,7 +62,7 @@ public class CarService implements CarResource {
     @Override
     public Response findAll() {
         log.info("find all");
-        List<Car> cars = carDao.findAll();
+        Set<Car> cars = carDao.findAll();
         return cars.isEmpty()
                 ? status(NOT_FOUND).build()
                 : ok(cars.stream()
@@ -67,10 +70,9 @@ public class CarService implements CarResource {
                 .collect(Collectors.toList())).build();
     }
 
-
-    private Car setModelInCar(final CarDto carDto) {
+    private Car findModel(CarDto carDto) {
         final Car car = CarMapper.toEntity(carDto);
-        car.setModel(modelDao.findById(carDto.getId()).orElseThrow(
+        car.setModel(modelDao.findById(carDto.getModel()).orElseThrow(
                 () -> new WebApplicationException("Model not found", NOT_FOUND)
         ));
         return car;

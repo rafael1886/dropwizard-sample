@@ -4,15 +4,14 @@ import org.pl.dropwizard.model.Car;
 import org.pl.dropwizard.model.dto.CarDto;
 
 public class CarMapper {
-
     public static Car toEntity(CarDto carDto) {
-        return Car.builder()
-                .id(carDto.getId())
-                .engineCapacity(carDto.getEngineCapacity())
-                .typeOfFuel(carDto.getTypeOfFuel())
-                .yearProduction(carDto.getYearProduction())
-                .color(carDto.getColor())
-                .build();
+        Car car = new Car();
+        car.setId(carDto.getId());
+        car.setEngineCapacity(carDto.getEngineCapacity());
+        car.setTypeOfFuel(carDto.getTypeOfFuel());
+        car.setYearProduction(carDto.getYearProduction());
+        car.setColor(carDto.getColor());
+        return car;
     }
 
     public static CarDto toDto(Car car) {

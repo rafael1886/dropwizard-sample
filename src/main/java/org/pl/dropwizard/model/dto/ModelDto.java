@@ -9,24 +9,12 @@ public class ModelDto {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Long getBrand() {
         return brand;
-    }
-
-    public void setBrand(Long brand) {
-        this.brand = brand;
     }
 
     @Override
@@ -36,5 +24,32 @@ public class ModelDto {
                 ", name='" + name + '\'' +
                 ", brand=" + brand +
                 '}';
+    }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private ModelDto modelDto = new ModelDto();
+
+        public Builder id(Long id) {
+            modelDto.id = id;
+            return this;
+        }
+
+        public Builder name(String name) {
+            modelDto.name = name;
+            return this;
+        }
+
+        public Builder brand(Long brand) {
+            modelDto.brand = brand;
+            return this;
+        }
+
+        public ModelDto build() {
+            return modelDto;
+        }
     }
 }

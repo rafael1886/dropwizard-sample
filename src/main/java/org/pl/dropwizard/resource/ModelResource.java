@@ -15,20 +15,16 @@ public interface ModelResource {
 
     @PUT
     @Path("{id}")
-    Response update(final ModelDto modelDto);
+    Response update(final ModelDto modelDto, @PathParam("id") final Long id);
 
     @GET
     @Path("{id}")
     Response findById(@PathParam("id") final Long id);
 
     @GET
-    @Path("/w/{id}")
-    Response findById2(@PathParam("id") final Long id);
-
-    @GET
     Response findAll();
 
     @DELETE
-    @Path("delete/{id}")
+    @Path("{id}")
     Response delete(@PathParam("id") final Long id);
 }

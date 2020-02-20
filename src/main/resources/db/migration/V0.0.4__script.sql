@@ -13,12 +13,12 @@ CREATE TABLE IF NOT EXISTS models (
 );
 
 CREATE TABLE IF NOT EXISTS cars (
-	id bigserial NOT NULL,
+	id_car bigserial NOT NULL,
 	model_id bigint NOT NULL,
 	year_production int NOT NULL,
 	type_of_fuel varchar(55) NOT NULL,
 	engine_capacity int NOT NULL,
 	color varchar(55) NOT NULL,
-	CONSTRAINT cars_pkey PRIMARY KEY (id),
+	CONSTRAINT cars_pkey PRIMARY KEY (id_car),
     CONSTRAINT model_car_fk FOREIGN KEY (model_id) REFERENCES models(id_model)
 );

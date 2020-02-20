@@ -23,26 +23,4 @@ public class Brand {// extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private Brand brand = new Brand();
-
-        public Builder id(Long id) {
-            brand.setId(id);
-            return this;
-        }
-
-        public Builder name(String name) {
-            brand.name = name;
-            return this;
-        }
-
-        public Brand build() {
-            return brand;
-        }
-    }
 }

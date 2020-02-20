@@ -12,15 +12,6 @@ public class Model {//} extends BaseEntity {
     @ColumnName("brand_id")
     private Brand brand;
 
-    public Model() {
-    }
-
-    public Model(Long id, String name, Brand brand) {
-        this.id = id;
-        this.name = name;
-        this.brand = brand;
-    }
-
     public Long getId() {
         return id;
     }
@@ -37,7 +28,6 @@ public class Model {//} extends BaseEntity {
         this.name = name;
     }
 
-    @Nested("m")
     public Brand getBrand() {
         return brand;
     }
@@ -52,32 +42,5 @@ public class Model {//} extends BaseEntity {
                 "name='" + name + '\'' +
                 ", brand=" + brand +
                 '}';
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-    public static class Builder {
-        private Model model = new Model();
-
-        public Builder id(Long id) {
-            model.setId(id);
-            return this;
-        }
-
-        public Builder name(String name) {
-            model.name = name;
-            return this;
-        }
-
-        public Builder brand(Brand brand) {
-            model.brand = brand;
-            return this;
-        }
-
-        public Model build() {
-            return model;
-        }
     }
 }
