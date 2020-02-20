@@ -7,8 +7,12 @@ import io.dropwizard.setup.Environment;
 import org.flywaydb.core.Flyway;
 import org.jdbi.v3.core.Jdbi;
 import org.pl.dropwizard.config.JdbiConfiguration;
-import org.pl.dropwizard.dao.*;
-import org.pl.dropwizard.resource.*;
+import org.pl.dropwizard.dao.BrandDao;
+import org.pl.dropwizard.dao.CarDao;
+import org.pl.dropwizard.dao.ModelDao;
+import org.pl.dropwizard.resource.BrandService;
+import org.pl.dropwizard.resource.CarService;
+import org.pl.dropwizard.resource.ModelService;
 
 import javax.ws.rs.client.Client;
 
@@ -30,17 +34,6 @@ public class StartApplication extends Application<JdbiConfiguration> {
         final Client client = new JerseyClientBuilder(environment).using(config.getJerseyClientConfiguration())
                 .build(getName());
         environment.jersey().register(client);
-        // Register resources address
-        AddressRepo addressRepo = new AddressRepo(jdbi);
-        AddressService component = new AddressService(addressRepo);
-        environment.jersey().register(component);
-        // Register resources user
-        UserResource userResource = new UserResource(jdbi.onDemand(UserDao.class));
-        environment.jersey().register(userResource);
-        // Register resources book
-        BookService bookService = new BookService(new BookDao(jdbi));
-        environment.jersey().register(bookService);
-
 
         // Register resources brand
         BrandDao brandDao = jdbi.onDemand(BrandDao.class);

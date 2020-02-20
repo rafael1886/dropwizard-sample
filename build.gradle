@@ -52,10 +52,13 @@ dependencies {
     implementation group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
     implementation group: 'io.dropwizard', name: 'dropwizard-client', version: dropwizardVersion
     implementation group: 'io.dropwizard', name: 'dropwizard-jdbi3', version: dropwizardVersion
+    testCompile group: 'io.dropwizard', name: 'dropwizard-testing', version: dropwizardVersion
 
     implementation group: 'org.postgresql', name: 'postgresql', version: postgresVersion
 
     compile 'org.apache.logging.log4j:log4j-core:2.13.0'
+
+
 }
 
 mainClassName = 'org.pl.dropwizard.StartApplication'
