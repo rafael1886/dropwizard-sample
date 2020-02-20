@@ -31,7 +31,7 @@ public class ModelDto {
     }
 
     public static class Builder {
-        private ModelDto modelDto = new ModelDto();
+        private final ModelDto modelDto = new ModelDto();
 
         public Builder id(Long id) {
             modelDto.id = id;

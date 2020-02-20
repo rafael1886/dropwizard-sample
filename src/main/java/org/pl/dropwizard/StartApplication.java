@@ -23,7 +23,7 @@ public class StartApplication extends Application<JdbiConfiguration> {
 
     @Override
     public String getName() {
-        return super.getName();
+        return "Dropwizard sample";
     }
 
     @Override

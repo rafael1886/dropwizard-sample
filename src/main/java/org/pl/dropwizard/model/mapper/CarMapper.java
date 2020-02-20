@@ -4,7 +4,7 @@ import org.pl.dropwizard.model.Car;
 import org.pl.dropwizard.model.dto.CarDto;
 
 public class CarMapper {
-    public static Car toEntity(CarDto carDto) {
+    public static Car toEntity(final CarDto carDto) {
         Car car = new Car();
         car.setId(carDto.getId());
         car.setEngineCapacity(carDto.getEngineCapacity());
@@ -14,7 +14,7 @@ public class CarMapper {
         return car;
     }
 
-    public static CarDto toDto(Car car) {
+    public static CarDto toDto(final Car car) {
         return CarDto.builder()
                 .id(car.getId())
                 .engineCapacity(car.getEngineCapacity())
