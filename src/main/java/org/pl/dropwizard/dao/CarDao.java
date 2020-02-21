@@ -34,4 +34,9 @@ public interface CarDao {
     @SqlQuery("select * from cars c left join models m on m.id_model = c.model_id")
     @RegisterFieldMapper(Car.class)
     Set<Car> findAll();
+
+    @SqlQuery("select * from cars c left join models m on m.id_model = c.model_id " +
+            " left join brands b on m.brand_id = b.id_brand")
+    @RegisterFieldMapper(Car.class)
+    Set<Car> findAllWithModelAndBrand();
 }

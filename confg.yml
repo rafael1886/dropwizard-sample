@@ -3,7 +3,9 @@ server:
     adminMaxThreads: 64
     applicationConnectors:
         - type: http
-          port: 8082
+          port: 8084
+
+
 
 database:
     # the name of your JDBC driver
@@ -16,7 +18,7 @@ database:
     password: xxxxxx
 
     # the JDBC URL
-     url: jdbc:postgresql://127.0.0.1:6553/dropwizard_sample
+    url: jdbc:postgresql://127.0.0.1:6553/dropwizard_sample
 
     # any properties specific to your JDBC driver:
     properties:

@@ -21,6 +21,11 @@ docker-compose up
 If your image alredy exist, you must remove or rebuild images. 
 To rebuild this image you must use `docker-compose build` or `docker-compose up --build`.
 
+Delete Docker containers and image:
+````
+docker rm psql_wizard && docker rm wizard-rest && docker image rm wizard-rest-app
+````
+
 ### Build With
 * [Dropwizard](http://www.dropwizard.io/) - The web framework used
 * [JDBI](http://jdbi.org/) - Jdbi provides convenient, idiomatic access to relational data in Java.

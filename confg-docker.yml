@@ -5,6 +5,7 @@ server:
         - type: http
           port: 8082
 
+
 database:
     # the name of your JDBC driver
     driverClass: org.postgresql.Driver

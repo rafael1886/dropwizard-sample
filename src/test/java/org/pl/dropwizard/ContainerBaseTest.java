@@ -6,7 +6,7 @@ import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 
-public class ContainerBaseTest {
+public abstract class ContainerBaseTest {
     private static PostgreSQLContainer postgreSQLContainer;
     protected static Jdbi jdbi;
 
