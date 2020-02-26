@@ -17,7 +17,7 @@ public class BrandDto {
     }
 
     public static class Builder {
-        private BrandDto brandDto = new BrandDto();
+        private final BrandDto brandDto = new BrandDto();
 
         public Builder id(Long id) {
             brandDto.id = id;

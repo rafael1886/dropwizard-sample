@@ -1,32 +1,30 @@
 package org.pl.dropwizard;
 
 import org.flywaydb.core.Flyway;
-import org.pl.dropwizard.config.JpaConfig;
+import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.util.Map;
 
-public class ContainerBaseTest {
+public abstract class ContainerBaseTest {
     private static PostgreSQLContainer postgreSQLContainer;
+    protected static Jdbi jdbi;
 
-    static{
+    static {
         mysqlContainerCongigurationAndStart();
-//        migrateDb();
-
-        Map<String, String> properties = Map.of("url", postgreSQLContainer.getJdbcUrl(),
-                "username", postgreSQLContainer.getUsername(),
-                "password", postgreSQLContainer.getPassword());
-        JpaConfig.getInstance(properties);
+        migrateDb();
+        jdbi = Jdbi.create(postgreSQLContainer.getJdbcUrl(), postgreSQLContainer.getUsername(), postgreSQLContainer.getPassword());
+        jdbi.installPlugin(new SqlObjectPlugin());
     }
 
     private static void mysqlContainerCongigurationAndStart() {
-        postgreSQLContainer = new PostgreSQLContainer("postgres:11.6");
-        postgreSQLContainer.withInitScript("db/migration/V0.0.1__script.sql");
+        postgreSQLContainer = new PostgreSQLContainer("postgres:12.1-alpine");
         postgreSQLContainer.withEnv("TZ", "Europe/Warsaw");
         postgreSQLContainer.addParameter("useUnicode", "yes");
         postgreSQLContainer.addParameter("characterEncoding", "UTF-8");
         postgreSQLContainer.start();
     }
+
     private static void migrateDb() {
         Flyway flyway = Flyway.configure()
                 .dataSource(postgreSQLContainer.getJdbcUrl(), postgreSQLContainer.getUsername(), postgreSQLContainer.getPassword())

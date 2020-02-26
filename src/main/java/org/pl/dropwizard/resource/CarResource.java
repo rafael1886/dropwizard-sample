@@ -24,6 +24,10 @@ public interface CarResource {
     @GET
     Response findAll();
 
+    @GET
+    @Path("/all")
+    Response findAllAll();
+
     @DELETE
     @Path("{id}")
     Response delete(@PathParam("id") final Long id);

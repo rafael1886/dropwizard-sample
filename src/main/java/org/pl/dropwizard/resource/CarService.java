@@ -70,6 +70,12 @@ public class CarService implements CarResource {
                 .collect(Collectors.toList())).build();
     }
 
+    @Override
+    public Response findAllAll() {
+        log.info("fina all entity");
+        return ok(carDao.findAllWithModelAndBrand()).build();
+    }
+
     private Car findModel(CarDto carDto) {
         final Car car = CarMapper.toEntity(carDto);
         car.setModel(modelDao.findById(carDto.getModel()).orElseThrow(

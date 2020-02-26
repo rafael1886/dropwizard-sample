@@ -5,6 +5,7 @@ import org.jdbi.v3.core.mapper.reflect.FieldMapper;
 import org.pl.dropwizard.model.Model;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class ModelDao {
@@ -18,8 +19,7 @@ public class ModelDao {
         return jdbi.withHandle(handle -> {
             handle.registerRowMapper(FieldMapper.factory(Model.class));
             return handle.createUpdate("insert into models(name_model, brand_id) values (:name, :brand_id) ")
-                    .bind("name", model.getName())
-                    .bind("brand_id", model.getBrand().getId())
+                    .bindMap(bindMap(model))
                     .executeAndReturnGeneratedKeys()
                     .mapTo(Model.class)
                     .one();
@@ -28,12 +28,15 @@ public class ModelDao {
 
     public boolean update(Model model, Long id) {
         return 1 == jdbi.withHandle(handle -> handle.createUpdate("update models set name_model = :name, brand_id = :brand_id where id_model = :id ")
-                .bind("name", model.getName())
-                .bind("brand_id", model.getBrand().getId())
+                .bindMap(bindMap(model))
                 .bind("id", id)
                 .execute());
     }
 
+    private Map bindMap(Model model) {
+        return Map.of("name", model.getName(),
+                "brand_id", model.getBrand().getId());
+    }
     public boolean deleteById(Long id) {
         return 1 == jdbi.withHandle(handle -> handle.createUpdate("delete from models where id_model = :id")
                 .bind("id", id)

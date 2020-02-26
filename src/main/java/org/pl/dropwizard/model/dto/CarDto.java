@@ -39,7 +39,7 @@ public class CarDto {
     }
 
     public static class Builder {
-        private CarDto carDto = new CarDto();
+        private final CarDto carDto = new CarDto();
 
         public Builder id(Long id) {
             carDto.id = id;
