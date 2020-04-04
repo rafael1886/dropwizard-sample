@@ -3,44 +3,43 @@ package org.pl.dropwizard.model;
 import org.jdbi.v3.core.mapper.Nested;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
-public class Model {//} extends BaseEntity {
-    @ColumnName("id_model")
-    private Long id;
-    @ColumnName("name_model")
-    private String name;
-    @Nested
-    @ColumnName("brand_id")
-    private Brand brand;
+public class Model { // } extends BaseEntity {
+  @ColumnName("id_model")
+  private Long id;
 
-    public Long getId() {
-        return id;
-    }
+  @ColumnName("name_model")
+  private String name;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  @Nested
+  @ColumnName("brand_id")
+  private Brand brand;
 
-    public String getName() {
-        return name;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Brand getBrand() {
-        return brand;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setBrand(Brand brand) {
-        this.brand = brand;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public String toString() {
-        return "Model{" +
-                "name='" + name + '\'' +
-                ", brand=" + brand +
-                '}';
-    }
+  public Brand getBrand() {
+    return brand;
+  }
+
+  public void setBrand(Brand brand) {
+    this.brand = brand;
+  }
+
+  @Override
+  public String toString() {
+    return "Model{" + "name='" + name + '\'' + ", brand=" + brand + '}';
+  }
 }

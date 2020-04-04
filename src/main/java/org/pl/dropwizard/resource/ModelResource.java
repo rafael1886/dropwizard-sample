@@ -10,21 +10,21 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public interface ModelResource {
 
-    @POST
-    Response create(final ModelDto modelDto);
+  @POST
+  Response create(final ModelDto modelDto);
 
-    @PUT
-    @Path("{id}")
-    Response update(final ModelDto modelDto, @PathParam("id") final Long id);
+  @PUT
+  @Path("{id}")
+  Response update(final ModelDto modelDto, @PathParam("id") final Long id);
 
-    @GET
-    @Path("{id}")
-    Response findById(@PathParam("id") final Long id);
+  @GET
+  @Path("{id}")
+  Response findById(@PathParam("id") final Long id);
 
-    @GET
-    Response findAll();
+  @GET
+  Response findAll();
 
-    @DELETE
-    @Path("{id}")
-    Response delete(@PathParam("id") final Long id);
+  @DELETE
+  @Path("{id}")
+  Response delete(@PathParam("id") final Long id);
 }

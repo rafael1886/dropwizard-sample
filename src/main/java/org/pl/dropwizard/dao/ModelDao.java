@@ -9,56 +9,72 @@ import java.util.Map;
 import java.util.Optional;
 
 public class ModelDao {
-    private final Jdbi jdbi;
+  private final Jdbi jdbi;
 
-    public ModelDao(Jdbi jdbi) {
-        this.jdbi = jdbi;
-    }
+  public ModelDao(Jdbi jdbi) {
+    this.jdbi = jdbi;
+  }
 
-    public Model create(Model model) {
-        return jdbi.withHandle(handle -> {
-            handle.registerRowMapper(FieldMapper.factory(Model.class));
-            return handle.createUpdate("insert into models(name_model, brand_id) values (:name, :brand_id) ")
+  public Model create(Model model) {
+    return jdbi.withHandle(
+        handle -> {
+          handle.registerRowMapper(FieldMapper.factory(Model.class));
+          return handle
+              .createUpdate("insert into models(name_model, brand_id) values (:name, :brand_id) ")
+              .bindMap(bindMap(model))
+              .executeAndReturnGeneratedKeys()
+              .mapTo(Model.class)
+              .one();
+        });
+  }
+
+  public boolean update(Model model, Long id) {
+    return 1
+        == jdbi.withHandle(
+            handle ->
+                handle
+                    .createUpdate(
+                        "update models set name_model = :name, brand_id = :brand_id where id_model = :id ")
                     .bindMap(bindMap(model))
-                    .executeAndReturnGeneratedKeys()
-                    .mapTo(Model.class)
-                    .one();
-        });
-    }
-
-    public boolean update(Model model, Long id) {
-        return 1 == jdbi.withHandle(handle -> handle.createUpdate("update models set name_model = :name, brand_id = :brand_id where id_model = :id ")
-                .bindMap(bindMap(model))
-                .bind("id", id)
-                .execute());
-    }
-
-    private Map bindMap(Model model) {
-        return Map.of("name", model.getName(),
-                "brand_id", model.getBrand().getId());
-    }
-    public boolean deleteById(Long id) {
-        return 1 == jdbi.withHandle(handle -> handle.createUpdate("delete from models where id_model = :id")
-                .bind("id", id)
-                .execute());
-    }
-
-    public Optional<Model> findById(Long id) {
-        return jdbi.withHandle(handle -> {
-            handle.registerRowMapper(FieldMapper.factory(Model.class));
-            return handle.createQuery("select * from models m left join brands b on b.id_brand = m.brand_id where m.id_model = :id")
                     .bind("id", id)
-                    .mapTo(Model.class)
-                    .findFirst();
-        });
-    }
+                    .execute());
+  }
 
-    public List<Model> findAll() {
-        return jdbi.withHandle(handle -> {
-            handle.registerRowMapper(FieldMapper.factory(Model.class));
-            return handle.createQuery("select * from models m left join brands b on b.id_brand = m.brand_id")
-                    .mapTo(Model.class)
-                    .list();
+  private Map<String, Object> bindMap(Model model) {
+    return Map.of("name", model.getName(), "brand_id", model.getBrand().getId());
+  }
+
+  public boolean deleteById(Long id) {
+    return 1
+        == jdbi.withHandle(
+            handle ->
+                handle
+                    .createUpdate("delete from models where id_model = :id")
+                    .bind("id", id)
+                    .execute());
+  }
+
+  public Optional<Model> findById(Long id) {
+    return jdbi.withHandle(
+        handle -> {
+          handle.registerRowMapper(FieldMapper.factory(Model.class));
+          return handle
+              .createQuery(
+                  "select * from models m left join brands b on b.id_brand = m.brand_id where m.id_model = :id")
+              .bind("id", id)
+              .mapTo(Model.class)
+              .findFirst();
         });
-    }
+  }
+
+  public List<Model> findAll() {
+    return jdbi.withHandle(
+        handle -> {
+          handle.registerRowMapper(FieldMapper.factory(Model.class));
+          return handle
+              .createQuery("select * from models m left join brands b on b.id_brand = m.brand_id")
+              .mapTo(Model.class)
+              .list();
+        });
+  }
 }

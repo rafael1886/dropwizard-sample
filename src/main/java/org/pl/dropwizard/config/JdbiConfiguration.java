@@ -9,31 +9,27 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 public class JdbiConfiguration extends Configuration {
-    @Valid
-    @NotNull
-    private DataSourceFactory database = new DataSourceFactory();
+  @Valid @NotNull private DataSourceFactory database = new DataSourceFactory();
 
-    @Valid
-    @NotNull
-    private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
+  @Valid @NotNull private JerseyClientConfiguration jerseyClient = new JerseyClientConfiguration();
 
-    @JsonProperty("jerseyClient")
-    public JerseyClientConfiguration getJerseyClientConfiguration() {
-        return jerseyClient;
-    }
+  @JsonProperty("jerseyClient")
+  public JerseyClientConfiguration getJerseyClientConfiguration() {
+    return jerseyClient;
+  }
 
-    @JsonProperty("jerseyClient")
-    public void setJerseyClientConfiguration(JerseyClientConfiguration jerseyClient) {
-        this.jerseyClient = jerseyClient;
-    }
+  @JsonProperty("jerseyClient")
+  public void setJerseyClientConfiguration(JerseyClientConfiguration jerseyClient) {
+    this.jerseyClient = jerseyClient;
+  }
 
-    @JsonProperty("database")
-    public void setDataSourceFactory(DataSourceFactory factory) {
-        this.database = factory;
-    }
+  @JsonProperty("database")
+  public DataSourceFactory getDataSourceFactory() {
+    return database;
+  }
 
-    @JsonProperty("database")
-    public DataSourceFactory getDataSourceFactory() {
-        return database;
-    }
+  @JsonProperty("database")
+  public void setDataSourceFactory(DataSourceFactory factory) {
+    this.database = factory;
+  }
 }

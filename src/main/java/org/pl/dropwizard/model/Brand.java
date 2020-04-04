@@ -2,25 +2,26 @@ package org.pl.dropwizard.model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
-public class Brand {// extends BaseEntity {
-    @ColumnName("id_brand")
-    private Long id;
-    @ColumnName("name_brand")
-    private String name;
+public class Brand { // extends BaseEntity {
+  @ColumnName("id_brand")
+  private Long id;
 
-    public Long getId() {
-        return id;
-    }
+  @ColumnName("name_brand")
+  private String name;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

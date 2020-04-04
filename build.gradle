@@ -2,6 +2,7 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '5.2.0'
     id 'java'
     id 'application'
+    id 'com.google.cloud.tools.jib' version '2.1.0'
 }
 
 group 'org.pl.dropwizard'
@@ -17,7 +18,7 @@ sourceSets.main.output.resourcesDir = sourceSets.main.java.outputDir
 sourceSets.test.output.resourcesDir = sourceSets.test.java.outputDir
 
 wrapper {
-    gradleVersion = '6.2.1'
+    gradleVersion = '6.3'
 }
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
@@ -41,10 +42,14 @@ dependencies {
 
     compile 'org.apache.logging.log4j:log4j-core:2.13.0'
 
+// https://mvnrepository.com/artifact/io.dropwizard/dropwizard-views-freemarker
+    compile group: 'io.dropwizard', name: 'dropwizard-views-freemarker', version: '2.0.2'
 
 }
 
 mainClassName = 'org.pl.dropwizard.StartApplication'
+
+jib.to.image = 'gcr.io/dropwizard-sample'
 
 run {
     args = ['server', 'config.yml']

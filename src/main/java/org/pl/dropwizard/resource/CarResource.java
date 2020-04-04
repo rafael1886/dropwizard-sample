@@ -10,25 +10,25 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public interface CarResource {
 
-    @POST
-    Response create(final CarDto carDto);
+  @POST
+  Response create(final CarDto carDto);
 
-    @PUT
-    @Path("{id}")
-    Response update(final CarDto carDto, @PathParam("id") final Long id);
+  @PUT
+  @Path("{id}")
+  Response update(final CarDto carDto, @PathParam("id") final Long id);
 
-    @GET
-    @Path("{id}")
-    Response findById(@PathParam("id") final Long id);
+  @GET
+  @Path("{id}")
+  Response findById(@PathParam("id") final Long id);
 
-    @GET
-    Response findAll();
+  @GET
+  Response findAll();
 
-    @GET
-    @Path("/all")
-    Response findAllAll();
+  @GET
+  @Path("/all")
+  Response findAllAll();
 
-    @DELETE
-    @Path("{id}")
-    Response delete(@PathParam("id") final Long id);
+  @DELETE
+  @Path("{id}")
+  Response delete(@PathParam("id") final Long id);
 }

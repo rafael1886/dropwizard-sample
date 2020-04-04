@@ -1,48 +1,52 @@
 server:
-    adminMinThreads: 1
-    adminMaxThreads: 64
-    applicationConnectors:
-        - type: http
-          port: 8082
+  maxThreads: 512
+  adminMinThreads: 1
+  adminMaxThreads: 64
+  applicationConnectors:
+    - type: http
+      port: ${PORT} #8082
+  adminConnectors:
+    - type: http
+      port: 8081
 
 
 database:
-    # the name of your JDBC driver
-    driverClass: org.postgresql.Driver
+  # the name of your JDBC driver
+  driverClass: org.postgresql.Driver
 
-    # the username
-    user: postgres
+  # the username
+  user: postgres
 
-    # the password
-    password: xxxxxx
+  # the password
+  password: xxxxxx
 
-    # the JDBC URL
-    url: jdbc:postgresql://postgresdb/dropwizarddb
+  # the JDBC URL
+  url: jdbc:postgresql://postgresdb/dropwizarddb
 
-    # any properties specific to your JDBC driver:
-    properties:
-        charSet: UTF-8
+  # any properties specific to your JDBC driver:
+  properties:
+    charSet: UTF-8
 
-    # the maximum amount of time to wait on an empty pool before throwing an exception
-    maxWaitForConnection: 1s
+  # the maximum amount of time to wait on an empty pool before throwing an exception
+  maxWaitForConnection: 1s
 
-    # the SQL query to run when validating a connection's liveness
-    validationQuery: "/* MyService Health Check */ SELECT 1"
+  # the SQL query to run when validating a connection's liveness
+  validationQuery: "/* MyService Health Check */ SELECT 1"
 
-    # the timeout before a connection validation queries fail
-    validationQueryTimeout: 3s
+  # the timeout before a connection validation queries fail
+  validationQueryTimeout: 3s
 
-    # the minimum number of connections to keep open
-    minSize: 8
+  # the minimum number of connections to keep open
+  minSize: 8
 
-    # the maximum number of connections to keep open
-    maxSize: 32
+  # the maximum number of connections to keep open
+  maxSize: 32
 
-    # whether or not idle connections should be validated
-    checkConnectionWhileIdle: false
+  # whether or not idle connections should be validated
+  checkConnectionWhileIdle: false
 
-    # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
-    evictionInterval: 10s
+  # the amount of time to sleep between runs of the idle connection validation, abandoned cleaner and idle pool resizing
+  evictionInterval: 10s
 
-    # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
-    minIdleTime: 1 minute
+  # the minimum amount of time an connection must sit idle in the pool before it is eligible for eviction
+  minIdleTime: 1 minute

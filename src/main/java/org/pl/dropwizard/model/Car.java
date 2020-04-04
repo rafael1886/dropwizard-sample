@@ -5,64 +5,69 @@ import org.jdbi.v3.core.mapper.reflect.ColumnName;
 import org.pl.dropwizard.model.enums.TypeOfFuel;
 
 public class Car {
-    @ColumnName("id_car")
-    private Long id;
-    @Nested
-    @ColumnName("model_id")
-    private Model model;
-    @ColumnName("year_production")
-    private Integer yearProduction;
-    @ColumnName("type_of_fuel")
-    private TypeOfFuel typeOfFuel;
-    @ColumnName("engine_capacity")
-    private Integer engineCapacity; //cm3
-    private String color;
+  @ColumnName("id_car")
+  private Long id;
 
-    public Long getId() {
-        return id;
-    }
+  @Nested
+  @ColumnName("model_id")
+  private Model model;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  @ColumnName("year_production")
+  private Integer yearProduction;
 
-    public Model getModel() {
-        return model;
-    }
+  @ColumnName("type_of_fuel")
+  private TypeOfFuel typeOfFuel;
 
-    public void setModel(Model model) {
-        this.model = model;
-    }
+  @ColumnName("engine_capacity")
+  private Integer engineCapacity; // cm3
 
-    public Integer getYearProduction() {
-        return yearProduction;
-    }
+  private String color;
 
-    public void setYearProduction(Integer yearProduction) {
-        this.yearProduction = yearProduction;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public TypeOfFuel getTypeOfFuel() {
-        return typeOfFuel;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setTypeOfFuel(TypeOfFuel typeOfFuel) {
-        this.typeOfFuel = typeOfFuel;
-    }
+  public Model getModel() {
+    return model;
+  }
 
-    public Integer getEngineCapacity() {
-        return engineCapacity;
-    }
+  public void setModel(Model model) {
+    this.model = model;
+  }
 
-    public void setEngineCapacity(Integer engineCapacity) {
-        this.engineCapacity = engineCapacity;
-    }
+  public Integer getYearProduction() {
+    return yearProduction;
+  }
 
-    public String getColor() {
-        return color;
-    }
+  public void setYearProduction(Integer yearProduction) {
+    this.yearProduction = yearProduction;
+  }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+  public TypeOfFuel getTypeOfFuel() {
+    return typeOfFuel;
+  }
+
+  public void setTypeOfFuel(TypeOfFuel typeOfFuel) {
+    this.typeOfFuel = typeOfFuel;
+  }
+
+  public Integer getEngineCapacity() {
+    return engineCapacity;
+  }
+
+  public void setEngineCapacity(Integer engineCapacity) {
+    this.engineCapacity = engineCapacity;
+  }
+
+  public String getColor() {
+    return color;
+  }
+
+  public void setColor(String color) {
+    this.color = color;
+  }
 }
