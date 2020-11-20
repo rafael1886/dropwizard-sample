@@ -1,5 +1,7 @@
 package org.pl.dropwizard.model.dto;
 
+import org.pl.dropwizard.model.Brand;
+
 public class BrandDto {
   private Long id;
   private String name;
@@ -32,5 +34,12 @@ public class BrandDto {
     public BrandDto build() {
       return brandDto;
     }
+  }
+
+  public Brand toEntity() {
+    Brand brand = new Brand();
+    brand.setId(id);
+    brand.setName(name);
+    return brand;
   }
 }

@@ -17,10 +17,10 @@ database:
   user: postgres
 
   # the password
-  password: xxxxxx
+  password: postgres
 
   # the JDBC URL
-  url: jdbc:postgresql://127.0.0.1:6553/dropwizard_sample
+  url: jdbc:postgresql://localhost:6558/dropwizard-sample
 
   # any properties specific to your JDBC driver:
   properties:

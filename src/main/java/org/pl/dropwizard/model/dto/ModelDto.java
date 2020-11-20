@@ -1,9 +1,12 @@
 package org.pl.dropwizard.model.dto;
 
+import org.pl.dropwizard.model.Brand;
+import org.pl.dropwizard.model.Model;
+
 public class ModelDto {
   private Long id;
   private String name;
-  private Long brand;
+  private Long brandId;
 
   public static Builder builder() {
     return new Builder();
@@ -17,13 +20,13 @@ public class ModelDto {
     return name;
   }
 
-  public Long getBrand() {
-    return brand;
+  public Long getBrandId() {
+    return brandId;
   }
 
   @Override
   public String toString() {
-    return "ModelDto{" + "id=" + id + ", name='" + name + '\'' + ", brand=" + brand + '}';
+    return "ModelDto{" + "id=" + id + ", name='" + name + '\'' + ", brandId=" + brandId + '}';
   }
 
   public static class Builder {
@@ -39,13 +42,23 @@ public class ModelDto {
       return this;
     }
 
-    public Builder brand(Long brand) {
-      modelDto.brand = brand;
+    public Builder brand(Long brandId) {
+      modelDto.brandId = brandId;
       return this;
     }
 
     public ModelDto build() {
       return modelDto;
     }
+  }
+
+  public Model toEntity() {
+    Model model = new Model();
+    model.setId(id);
+    model.setName(name);
+    Brand brand = new Brand();
+    brand.setId(brandId);
+    model.setBrand(brand);
+    return model;
   }
 }

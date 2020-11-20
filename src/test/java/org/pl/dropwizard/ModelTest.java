@@ -51,7 +51,7 @@ public class ModelTest extends ContainerBaseTest {
 
               ModelDto givenModelDto =
                   ModelDto.builder().name("AMG GT R").brand(actualBrand.getId()).build();
-              Response createModel = modelService.create(givenModelDto);
+              Response createModel = modelService.create(givenModelDto, actualBrand.getId());
               ModelDto modelDto = (ModelDto) createModel.getEntity();
               ModelDto actualModelDto =
                   (ModelDto) modelService.findById(modelDto.getId()).getEntity();
@@ -59,7 +59,7 @@ public class ModelTest extends ContainerBaseTest {
               assertEquals(CREATED, createModel.getStatusInfo());
               assertTrue(actualModelDto.getId() != null);
               assertEquals(givenModelDto.getName(), actualModelDto.getName());
-              assertEquals(givenModelDto.getBrand(), actualModelDto.getBrand());
+              assertEquals(givenModelDto.getBrandId(), actualModelDto.getBrandId());
             }),
         dynamicTest(
             "update model",
@@ -68,9 +68,8 @@ public class ModelTest extends ContainerBaseTest {
               Response createBrand = brandService.create(givenBrandDto);
               BrandDto actualBrand = (BrandDto) createBrand.getEntity();
 
-              ModelDto givenModelDto =
-                  ModelDto.builder().name("Bravo").brand(actualBrand.getId()).build();
-              Response createModel = modelService.create(givenModelDto);
+              ModelDto givenModelDto = ModelDto.builder().name("Bravo").brand(actualBrand.getId()).build();
+              Response createModel = modelService.create(givenModelDto, actualBrand.getId());
               ModelDto modelDto = (ModelDto) createModel.getEntity();
               ModelDto createModelDto =
                   (ModelDto) modelService.findById(modelDto.getId()).getEntity();
@@ -79,16 +78,18 @@ public class ModelTest extends ContainerBaseTest {
                   ModelDto.builder()
                       .id(createModelDto.getId())
                       .name("Tipo")
-                      .brand(createModelDto.getBrand())
+                      .brand(createModelDto.getBrandId())
                       .build();
-              Response response = modelService.update(tempModelDto, tempModelDto.getId());
+              Response response =
+                  modelService.update(
+                      tempModelDto, tempModelDto.getId(), tempModelDto.getBrandId());
               ModelDto findMdelUpdate =
                   (ModelDto) modelService.findById(modelDto.getId()).getEntity();
 
               assertEquals(OK.getStatusCode(), response.getStatus());
               assertTrue(findMdelUpdate.getId() != null);
               assertEquals(tempModelDto.getName(), findMdelUpdate.getName());
-              assertEquals(tempModelDto.getBrand(), findMdelUpdate.getBrand());
+              assertEquals(tempModelDto.getBrandId(), findMdelUpdate.getBrandId());
             }),
         dynamicTest(
             "delete model",
@@ -99,7 +100,7 @@ public class ModelTest extends ContainerBaseTest {
 
               ModelDto givenModelDto =
                   ModelDto.builder().name("Civic").brand(actualBrand.getId()).build();
-              Response createModel = modelService.create(givenModelDto);
+              Response createModel = modelService.create(givenModelDto, actualBrand.getId());
               ModelDto modelDto = (ModelDto) createModel.getEntity();
               ModelDto createModelDto =
                   (ModelDto) modelService.findById(modelDto.getId()).getEntity();

@@ -2,6 +2,9 @@ package org.pl.dropwizard.model;
 
 import org.jdbi.v3.core.mapper.Nested;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
+import org.pl.dropwizard.model.dto.ModelDto;
+
+import static java.util.Objects.nonNull;
 
 public class Model { // } extends BaseEntity {
   @ColumnName("id_model")
@@ -41,5 +44,10 @@ public class Model { // } extends BaseEntity {
   @Override
   public String toString() {
     return "Model{" + "name='" + name + '\'' + ", brand=" + brand + '}';
+  }
+
+  public ModelDto toDto() {
+    final var brandDto = nonNull(brand) ? brand.getId() : null;
+    return ModelDto.builder().id(id).name(name).brand(brandDto).build();
   }
 }

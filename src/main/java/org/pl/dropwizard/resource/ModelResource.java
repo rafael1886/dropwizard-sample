@@ -11,11 +11,14 @@ import javax.ws.rs.core.Response;
 public interface ModelResource {
 
   @POST
-  Response create(final ModelDto modelDto);
+  Response create(final ModelDto modelDto, @PathParam("brand_id") final Long brandId);
 
   @PUT
   @Path("{id}")
-  Response update(final ModelDto modelDto, @PathParam("id") final Long id);
+  Response update(
+      final ModelDto modelDto,
+      @PathParam("id") final Long id,
+      @PathParam("brand_id") final Long brandId);
 
   @GET
   @Path("{id}")

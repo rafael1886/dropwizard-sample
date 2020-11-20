@@ -1,8 +1,8 @@
 package org.pl.dropwizard.resource;
 
 import org.pl.dropwizard.dao.BrandDao;
+import org.pl.dropwizard.model.Brand;
 import org.pl.dropwizard.model.dto.BrandDto;
-import org.pl.dropwizard.model.mapper.BrandMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,15 +25,13 @@ public class BrandService implements BrandResource {
   @Override
   public Response create(final BrandDto brandDto) {
     log.info("create " + brandDto.toString());
-    return status(CREATED)
-        .entity(BrandMapper.toDto(brandDao.create(BrandMapper.toEntity(brandDto))))
-        .build();
+    return status(CREATED).entity(brandDao.create(brandDto.toEntity()).toDto()).build();
   }
 
   @Override
   public Response update(final BrandDto brandDto, final Long id) {
     log.info("update " + brandDto.toString());
-    final boolean success = brandDao.update(BrandMapper.toEntity(brandDto), id);
+    final boolean success = brandDao.update(brandDto.toEntity(), id);
     log.info("uu " + success);
     return success ? ok().build() : status(NOT_FOUND).build();
   }
@@ -50,8 +48,7 @@ public class BrandService implements BrandResource {
   @Override
   public Response findAll() {
     log.info("find all ");
-    return ok(brandDao.findAll().stream().map(BrandMapper::toDto).collect(Collectors.toSet()))
-        .build();
+    return ok(brandDao.findAll().stream().map(Brand::toDto).collect(Collectors.toSet())).build();
   }
 
   @Override

@@ -4,7 +4,7 @@ server:
   adminMaxThreads: 64
   applicationConnectors:
     - type: http
-      port: ${PORT} #8082
+      port: 8082 #8082
   adminConnectors:
     - type: http
       port: 8081
