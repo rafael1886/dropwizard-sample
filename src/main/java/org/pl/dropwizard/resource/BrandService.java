@@ -3,13 +3,16 @@ package org.pl.dropwizard.resource;
 import org.pl.dropwizard.dao.BrandDao;
 import org.pl.dropwizard.model.Brand;
 import org.pl.dropwizard.model.dto.BrandDto;
+import org.pl.dropwizard.resource.validation.BrandValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import static java.util.Objects.nonNull;
 import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.*;
@@ -25,6 +28,11 @@ public class BrandService implements BrandResource {
   @Override
   public Response create(final BrandDto brandDto) {
     log.info("create " + brandDto.toString());
+    BrandValidation brandValidation = new BrandValidation();
+    Set<String> brandErrors = brandValidation.validateBrand(brandDto);
+    if (nonNull(brandErrors) && !brandErrors.isEmpty()) {
+      brandErrors.forEach(WebApplicationException::new);
+    }
     return status(CREATED).entity(brandDao.create(brandDto.toEntity()).toDto()).build();
   }
 

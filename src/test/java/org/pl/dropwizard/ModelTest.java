@@ -57,7 +57,7 @@ public class ModelTest extends ContainerBaseTest {
                   (ModelDto) modelService.findById(modelDto.getId()).getEntity();
 
               assertEquals(CREATED, createModel.getStatusInfo());
-              assertTrue(actualModelDto.getId() != null);
+              assertNotNull(actualModelDto.getId());
               assertEquals(givenModelDto.getName(), actualModelDto.getName());
               assertEquals(givenModelDto.getBrandId(), actualModelDto.getBrandId());
             }),

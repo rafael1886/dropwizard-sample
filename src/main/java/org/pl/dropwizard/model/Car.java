@@ -2,6 +2,7 @@ package org.pl.dropwizard.model;
 
 import org.jdbi.v3.core.mapper.Nested;
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
+import org.pl.dropwizard.model.dto.CarDto;
 import org.pl.dropwizard.model.enums.TypeOfFuel;
 
 public class Car {
@@ -69,5 +70,16 @@ public class Car {
 
   public void setColor(String color) {
     this.color = color;
+  }
+
+  public CarDto toDto() {
+    return CarDto.builder()
+        .id(id)
+        .modelId(model.getId())
+        .yearProduction(yearProduction)
+        .typeOfFuel(typeOfFuel)
+        .engineCapacity(engineCapacity)
+        .color(color)
+        .build();
   }
 }

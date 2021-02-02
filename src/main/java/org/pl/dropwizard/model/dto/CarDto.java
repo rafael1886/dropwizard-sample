@@ -1,5 +1,6 @@
 package org.pl.dropwizard.model.dto;
 
+import org.pl.dropwizard.model.Car;
 import org.pl.dropwizard.model.enums.TypeOfFuel;
 
 public class CarDto {
@@ -56,6 +57,16 @@ public class CarDto {
         + color
         + '\''
         + '}';
+  }
+
+  public Car toEntity() {
+    Car car = new Car();
+    car.setId(id);
+    car.setColor(color);
+    car.setTypeOfFuel(typeOfFuel);
+    car.setEngineCapacity(engineCapacity);
+    car.setYearProduction(yearProduction);
+    return car;
   }
 
   public static class Builder {

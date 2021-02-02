@@ -3,8 +3,8 @@ package org.pl.dropwizard.resource;
 import org.pl.dropwizard.dao.CarDao;
 import org.pl.dropwizard.dao.ModelDao;
 import org.pl.dropwizard.model.Car;
+import org.pl.dropwizard.model.Model;
 import org.pl.dropwizard.model.dto.CarDto;
-import org.pl.dropwizard.model.mapper.CarMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,14 +30,16 @@ public class CarService implements CarResource {
   @Override
   public Response create(final CarDto carDto) {
     log.info("create " + carDto.toString());
-    final Car car = findModel(carDto);
-    return status(CREATED).entity(CarMapper.toDto(carDao.create(car))).build();
+    final Car car = carDto.toEntity();
+    car.setModel(findModel(carDto.getModel()));
+    return status(CREATED).entity(carDao.create(car).toDto()).build();
   }
 
   @Override
   public Response update(final CarDto carDto, final Long id) {
     log.info("update " + carDto.toString());
-    final Car car = findModel(carDto);
+    final Car car = carDto.toEntity();
+    car.setModel(findModel(carDto.getModel()));
     final boolean success = carDao.update(car, id);
     return success ? ok().build() : Response.status(NOT_FOUND).build();
   }
@@ -52,11 +54,10 @@ public class CarService implements CarResource {
   @Override
   public Response findById(final Long id) {
     log.info("find by id " + id);
-    return ok(CarMapper.toDto(
-            carDao
-                .findById(id)
-                .orElseThrow(
-                    () -> new WebApplicationException("Car not found, id = " + id, NOT_FOUND))))
+    return ok(carDao
+            .findById(id)
+            .orElseThrow(() -> new WebApplicationException("Car not found, id = " + id, NOT_FOUND))
+            .toDto())
         .build();
   }
 
@@ -66,7 +67,7 @@ public class CarService implements CarResource {
     Set<Car> cars = carDao.findAll();
     return cars.isEmpty()
         ? status(NOT_FOUND).build()
-        : ok(cars.stream().map(CarMapper::toDto).collect(Collectors.toList())).build();
+        : ok(cars.stream().map(Car::toDto).collect(Collectors.toList())).build();
   }
 
   @Override
@@ -75,12 +76,9 @@ public class CarService implements CarResource {
     return ok(carDao.findAllWithModelAndBrand()).build();
   }
 
-  private Car findModel(CarDto carDto) {
-    final Car car = CarMapper.toEntity(carDto);
-    car.setModel(
-        modelDao
-            .findById(carDto.getModel())
-            .orElseThrow(() -> new WebApplicationException("Model not found", NOT_FOUND)));
-    return car;
+  private Model findModel(Long modelId) {
+    return modelDao
+        .findById(modelId)
+        .orElseThrow(() -> new WebApplicationException("Model not found", NOT_FOUND));
   }
 }
